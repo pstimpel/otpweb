@@ -3,7 +3,7 @@
     <div class="row flex-row"  style="vertical-align: middle; margin-top: 25px;">
         <div class="col-sm-12 col-lg-12" style="vertical-align: middle;">
             <p class="text-center" style="vertical-align: middle;">
-                <b class="fa fa-copyright" style="color: darkred; font-size: 30px; vertical-align: middle;"></b> 2022 ff - by Pete
+                Written by Pete | <a class="light" href="https://github.com/pstimpel/otpweb" target="_blank">https://github.com/pstimpel/otpweb</a>
 
             </p>
         </div>

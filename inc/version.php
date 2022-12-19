@@ -1,3 +1,6 @@
 <?php
 
-$otpwebversion = "1.0.1";
+class Version {
+    CONST OTPVERSION = "1.0.2";
+}
+

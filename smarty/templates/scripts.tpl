@@ -3,7 +3,7 @@
 
 {if $loggedIn == 1}
 <!-- TODO: remove the cachets in production -->
-<script src="js/otpweb.js?ts={$cachets}"></script>
+<script src="js/otpweb.js?ts={$OTPVERSION}"></script>
 {/if}
 
 {if $pwdfocus == 1}

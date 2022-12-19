@@ -68,6 +68,10 @@ You can restore your data by just uploading the json file.
 
 **Attention: Restore will delete all existing data in your installation, and all icons as well - before restoring the data from the json file.**
 
+### Update
+
+Just git clone this repo, and overwrite your installation with the files from the git clone. 
+
 ### Security explained, and possible issues
 
 All relevant data are enrypted by AES-256-CBC. Each data row has its own random "IV". The decryption happens using your hashed password. The password it stored nowhere, except in the session variable at the webserver. So yes, if someone can read your session, he/she might be able to decrypt the database entries - given this person has access to the database as well. 

@@ -384,6 +384,7 @@ class Otp
         global $smarty;
         $totpSorted = Db::getOtpValues($id);
         $smarty->assign("totpValues", $totpSorted);
+        $smarty->assign('DESCRIPTION_LENGTH', self::DESCRIPTION_LENGTH);
     }
 
     /**

@@ -63,6 +63,4 @@ $smarty->setCompileDir(__DIR__ . '/../smarty/templates_c/');
 $smarty->setConfigDir(__DIR__ . '/../smarty/configs/');
 $smarty->setCacheDir(__DIR__ . '/../smarty/cache/');
 
-$GLOBAL_CACHETS = strtotime(date("Y-m-d H:i:s"));
-
-$smarty->assign('cachets', $GLOBAL_CACHETS);
+$smarty->assign('OTPVERSION', Version::OTPVERSION);

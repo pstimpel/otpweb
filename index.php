@@ -144,8 +144,6 @@ if (!empty($smarty)) {
 
     $smarty->assign('template', $template);
 
-    $smarty->assign('otpwebversion', $otpwebversion);
-
     $smarty->display('index.tpl');
 
 }

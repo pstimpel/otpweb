@@ -18,7 +18,7 @@
 
     <!-- my css -->
     <!-- TODO: remove the cachets in production -->
-    <link href="css/otpweb.css?ts={$cachets}" rel="stylesheet" />
+    <link href="css/otpweb.css?ts={$OTPVERSION}" rel="stylesheet" />
 
     <script src="js/otpweb.js" ></script>
 

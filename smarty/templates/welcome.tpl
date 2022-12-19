@@ -23,7 +23,7 @@
                             </div>
                             <div id="tokendescriptionedit{$totpValues[m].totp_id}" class="tokenedit">
                                 <span class="spaneditform">
-                                    <input class="form-control spaneditinput" maxlength="100" type="text" name="totp_description_{$totpValues[m].totp_id}" id="totp_description_{$totpValues[m].totp_id}" value="{$totpValues[m].totp_description}">
+                                    <input class="form-control spaneditinput" maxlength="{$DESCRIPTION_LENGTH}" type="text" name="totp_description_{$totpValues[m].totp_id}" id="totp_description_{$totpValues[m].totp_id}" value="{$totpValues[m].totp_description}">
                                 </span>
                                 <span class="spaneditsave">
                                     <a href="javascript:savedescription('{$totpValues[m].totp_id}');">
