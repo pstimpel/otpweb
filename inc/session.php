@@ -6,6 +6,16 @@ class Session
     const SESSION_LIFETIME_SECONDS = 300;
 
     /**
+     * Returns a random string to name the pwd form field
+     *
+     * @return string timestamp of now
+     *
+     */
+    public static function createPasswordRelation():string {
+        return 's'.substr(md5(rand(1,10000).rand(1,10000).rand(1,10000)),0,10);
+    }
+
+    /**
      * Fills session with password and validity timestamp from $_POST
      *
      *
@@ -13,10 +23,11 @@ class Session
      */
     public static function login()
     {
-        $pass = $_POST['pwd'];
+        // TODO: this is such a dirty hack to avoid formfill suggestions by the browser, but seems to be working
+        $pass = $_POST[$_POST['passwordrelation']];
         $_SESSION['otp_pwd_hash'] = base64_encode(hash("sha256", $pass, true));
         $_SESSION['otp_loginvaliduntil'] = Session::otpnow() + Session::SESSION_LIFETIME_SECONDS;
-        $_SESSION['otp_checkhash'] = sha1($_POST['pwd']);
+        $_SESSION['otp_checkhash'] = sha1($pass);
         Otp::relocate("index.php");
     }
 

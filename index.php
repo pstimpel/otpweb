@@ -9,7 +9,7 @@ $action = '';
 if (isset($_GET['action'])) {
     $action = $_GET['action'];
 }
-
+$passwordrelation = '';
 $loggedIn = 0;
 $loggedInSmarty = 0;
 
@@ -45,6 +45,7 @@ if ($loggedIn === true) {
             exit;
         case "new":
             $template = "newentry.tpl";
+            Otp::prepareNewEntry();
             break;
         case "storeentry":
             Otp::newEntry();
@@ -95,6 +96,7 @@ if ($loggedIn === true) {
 } else {
     $template = 'login.tpl';
     $pwdfocus = 1;
+    $passwordrelation=Session::createPasswordRelation();
     switch ($action) {
         case "dbsetup":
             Db::dbsetup();
@@ -134,11 +136,15 @@ if (!empty($smarty)) {
 
     $smarty->assign('runHIBPcheck', $runHIBPcheck);
 
+    $smarty->assign('passwordrelation', $passwordrelation);
+
     $smarty->assign('loggedIn', $loggedInSmarty);
 
     $smarty->assign('pwdfocus', $pwdfocus);
 
     $smarty->assign('template', $template);
+
+    $smarty->assign('otpwebversion', $otpwebversion);
 
     $smarty->display('index.tpl');
 

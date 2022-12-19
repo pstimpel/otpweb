@@ -47,18 +47,25 @@ p {
     text-align: center;
 }
 .tokendiv {
-    line-height: 60px;
+    /*line-height: 60px;*/
+    min-height: 60px;
+
 }
 
 .tokenshow{
     width:100%;
     visibility: visible;
     position: absolute;
+    top: 0px;
+    left: 0px;
+
 }
 .tokenedit{
     width:100%;
     visibility: hidden;
     position: absolute;
+    top: 0px;
+    left: 0px;
 }
 .spanshow {
     position: absolute;
@@ -87,6 +94,8 @@ p {
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
+    width: 80%;
+    overflow: auto;
 }
 .textbold {
     font-weight: bold;

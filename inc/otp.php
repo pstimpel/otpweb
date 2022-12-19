@@ -27,6 +27,18 @@ class Otp
         echo $key;
     }
     */
+
+    /**
+     * Max len of description field
+     */
+    const DESCRIPTION_LENGTH = 100;
+
+    /**
+     * Max len of otp secret field
+     */
+    const TOTP_SECRET_LENGTH = 1024;
+
+
     /**
      * Reads binary data of an icon, encodes stream base64
      *
@@ -317,7 +329,7 @@ class Otp
         $returnvalue = "failed to save data";
         if ($_POST['totp_id'] == $totp_id && $_POST['totp_iv_b64'] == $iv_b64 && strlen($_POST['totp_description']) > 0) {
 
-            $description_crypted_b64 = Crypt::encrypt_base64($_POST['totp_description'], base64_decode($_SESSION['otp_pwd_hash']), base64_decode($iv_b64));
+            $description_crypted_b64 = Crypt::encrypt_base64(substr($_POST['totp_description'],0,self::DESCRIPTION_LENGTH), base64_decode($_SESSION['otp_pwd_hash']), base64_decode($iv_b64));
 
             if (Db::updateDescription($description_crypted_b64, $totp_id)) {
                 $returnvalue = "200";
@@ -401,6 +413,17 @@ class Otp
     }
 
     /**
+     * Just some preparation to load newnetry.tpl
+     *
+     */
+    public static function prepareNewEntry() {
+        global $smarty;
+        $smarty->assign('DESCRIPTION_LENGTH', self::DESCRIPTION_LENGTH);
+        $smarty->assign('TOTP_SECRET_LENGTH', self::TOTP_SECRET_LENGTH);
+
+    }
+
+    /**
      * Creates new encrypted token entry in database from $_POST, reloads page
      *
      */
@@ -412,12 +435,16 @@ class Otp
         $password = base64_decode($_SESSION['otp_pwd_hash']);
 
         try {
-            $otpsecret = Base32::decode(str_replace(' ', '', $_POST['secret']));
+            $otpsecret = Base32::decode(
+                str_replace(' ', '',
+                    substr($_POST['secret'],0,self::TOTP_SECRET_LENGTH )
+                )
+            );
         } catch (Exception $e) {
             die("Base32.decode failed with " . $e->getMessage());
         }
         $otpsecret_crypt_b64 = Crypt::encrypt_base64($otpsecret, $password, $iv);
-        $description = Crypt::encrypt_base64($_POST['description'], $password, $iv);
+        $description = Crypt::encrypt_base64(substr($_POST['description'], 0, self::DESCRIPTION_LENGTH), $password, $iv);
         $icon = Crypt::encrypt_base64('', $password, $iv);
 
         Db::dbStoreTOTPEntry($description, $icon, $otpsecret_crypt_b64, $iv_b64);

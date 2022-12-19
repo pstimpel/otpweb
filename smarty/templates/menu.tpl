@@ -43,7 +43,11 @@
                 <li class="nav-item">
                     <div id="pwcheck" class="clock"></div>
                 </li>
+
             {/if}
+            <li class="nav-item">
+                <div id="version" class="clock">V {$otpwebversion}</div>
+            </li>
 
         </ul>
 

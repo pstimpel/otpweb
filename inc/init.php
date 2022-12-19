@@ -12,6 +12,8 @@ session_start();
 $db = '';
 $database_set = true;
 
+require_once(__DIR__ . '/version.php');
+
 if (file_exists(__DIR__ . '/../database.php')) {
 
     require_once(__DIR__ . '/../database.php');

@@ -9,7 +9,22 @@
 {if $pwdfocus == 1}
     {literal}
         <script>
-            $('#pwd').focus();
+            $('#'+'{/literal}{$passwordrelation}{literal}').focus();
+
+            // TODO: this is such a dirty hack to avoid formfill suggestions by the browser, but seems to be working
+            let passwordfield = document.getElementById('{/literal}{$passwordrelation}{literal}');
+
+            passwordfield.onkeyup = function(e){
+                if(e.keyCode == 13){
+                    return false;
+                } else {
+                    if (passwordfield.value==null) {
+                        passwordfield.type = 'text';
+                    } else {
+                        passwordfield.type = 'password';
+                    }
+                }
+            }
         </script>
     {/literal}
 {/if}

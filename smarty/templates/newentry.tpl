@@ -5,12 +5,12 @@
 
             <div class="form-group">
                 <label for="description">Name of TOTP consumer</label>
-                <input type="text" class="form-control" name="description" id="description" placeholder="Name of TOTP consumer">
+                <input type="text" class="form-control" maxlength="{$DESCRIPTION_LENGTH}" name="description" id="description" placeholder="Name of TOTP consumer">
             </div>
 
             <div class="form-group">
                 <label for="secret">Secret received from TOTP consumer</label>
-                <input type="text" class="form-control" name="secret" id="secret" placeholder="Secret received from TOTP consumer">
+                <input type="text" class="form-control" maxlength="{$TOTP_SECRET_LENGTH}" name="secret" id="secret" placeholder="Secret received from TOTP consumer">
             </div>
 
             <button type="submit" class="btn btn-primary">Save</button>
