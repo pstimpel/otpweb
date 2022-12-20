@@ -1,9 +1,46 @@
 
 <script src="js/jquery-3.6.2.min.js"></script>
 
+<script src="js/notifit.js" type="text/javascript"></script>
+
+{literal}
+<script>
+    /*
+    * type:
+    * success
+    * error
+    * warning
+    * info
+    *
+    * timeout in millisecs
+    * */
+    function notifyUser(theType, theMessage, theTimeout, fade, multiline, autohide){
+        notif({
+            type: theType,
+            msg: theMessage,
+            position: "right",
+            opacity: 0.8,
+            timeout: theTimeout,
+            bgcolor: "lightgrey",
+            color: "black",
+            fade: fade,
+            multiline: multiline,
+            autohide: autohide,
+            width: 300
+        });
+    }
+</script>
+{/literal}
+
 {if $loggedIn == 1}
-<!-- TODO: remove the cachets in production -->
-<script src="js/otpweb.js?ts={$OTPVERSION}"></script>
+
+    <script src="js/otpweb.js?ts={$OTPVERSION}"></script>
+{/if}
+
+{if strlen($notifymessage)>0}
+    <script>
+        notifyUser('info', '{$notifymessage}', 5000, true, true, true);
+    </script>
 {/if}
 
 {if $pwdfocus == 1}

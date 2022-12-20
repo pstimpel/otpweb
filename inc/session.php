@@ -28,7 +28,12 @@ class Session
         $_SESSION['otp_pwd_hash'] = base64_encode(hash("sha256", $pass, true));
         $_SESSION['otp_loginvaliduntil'] = Session::otpnow() + Session::SESSION_LIFETIME_SECONDS;
         $_SESSION['otp_checkhash'] = sha1($pass);
-        Otp::relocate("index.php");
+        if(Db::migrateDatabase()) {
+            Otp::relocate("index.php?hint=Welcome");
+        } else {
+            die("called for database migration, but failed");
+        }
+
     }
 
     /**

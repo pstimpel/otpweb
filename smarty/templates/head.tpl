@@ -16,11 +16,13 @@
     <!-- Bootstrap-CSS -->
     <link href="css/bootstrap.css" rel="stylesheet" />
 
+    <link href="css/notifIt.css" type="text/css" rel="stylesheet">
+
     <!-- my css -->
     <!-- TODO: remove the cachets in production -->
     <link href="css/otpweb.css?ts={$OTPVERSION}" rel="stylesheet" />
 
-    <script src="js/otpweb.js" ></script>
+
 
 </head>
 <body>

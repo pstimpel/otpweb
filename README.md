@@ -84,6 +84,8 @@ Licensed under GPL3, see file LICENSE for more information.
 
 TOTP generator itself and related stuff was originally written by **lfkeitel**, https://github.com/lfkeitel/php-totp, provided under MIT license. I used that code as it was provided, but changed the way it was implemented in OTP web. He was reusing code from **bbars**, https://github.com/lfkeitel/php-totp, provided under MIT license. 
 
+NotifIt was created by **naoxink**, https://github.com/naoxink/notifIt, provided under MIT license.
+
 Driven by 
 - PHP https://www.php.net/
 - Smarty 4 https://www.smarty.net/download 

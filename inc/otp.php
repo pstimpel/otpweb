@@ -114,8 +114,10 @@ class Otp
         //delete all icons
         Image::deleteAllIcons();
 
-        //delete all db data from totp
-        Db::deleteAllEntries();
+        if($_POST['overwritedb']=='yes') {
+            //delete all db data from totp if users choice was to do so
+            Db::deleteAllEntries();
+        }
 
         //recreate Icons
         $failed_icons = false;
@@ -147,7 +149,7 @@ class Otp
         if($failed_icons || $failed_totp) {
             die("Either recreating Icons or recreating TOTP entries failed, please check the Iconfolder and database");
         } else {
-            Otp::relocate('index.php');
+            Otp::relocate('index.php?hint='.urlencode('Restore finished with success'));
         }
 
     }
@@ -204,9 +206,9 @@ class Otp
 
         $res = Image::picUpload();
         if($res=='OK') {
-            $res="Upload OK";
+            $res="Upload successful";
         }
-        self::relocate("index.php?action=showicons&hint=".$res);
+        self::relocate("index.php?action=showicons&hint=".urlencode($res));
     }
 
     /**
@@ -239,7 +241,7 @@ class Otp
         if(file_exists(Image::ICON_DIRECTORY . $_GET['id'])) {
             unlink(Image::ICON_DIRECTORY . $_GET['id']);
         }
-        Otp::relocate("index.php?action=showicons");
+        Otp::relocate("index.php?action=showicons&hint=".urlencode("Icon deleted"));
     }
 
     /**
@@ -304,9 +306,7 @@ class Otp
      */
     public static function showIcons() {
         global $smarty;
-        if(isset($_GET['hint'])) {
-            $smarty->assign('uploadresult', $_GET['hint']);
-        }
+
         $smarty->assign('icondirectory', Image::ICON_DIRECTORY);
 
         $smarty->assign('icons', self::getIcons());
@@ -397,7 +397,7 @@ class Otp
     {
 
         Db::deleteEntryById($id);
-        Otp::relocate("index.php");
+        Otp::relocate("index.php?hint=".urlencode("Entry deleted"));
 
     }
 
@@ -450,7 +450,7 @@ class Otp
 
         Db::dbStoreTOTPEntry($description, $icon, $otpsecret_crypt_b64, $iv_b64);
 
-        Otp::relocate("index.php");
+        Otp::relocate("index.php?hint=".urlencode("Entry added"));
 
     }
 

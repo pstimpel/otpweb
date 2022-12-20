@@ -177,6 +177,28 @@ class Db
     }
 
     /**
+     * Check if database is at most recent version, if not migrate
+     *
+     */
+    public static function migrateDatabase():bool {
+        global $user;
+        $dbversion = Db::getLatestDBVersion();
+
+        $loopCount = 0;
+
+        while($dbversion < Version::DBVERSION_EXPECTED && $loopCount < 10) {
+            $loopCount++;
+            $res = Db::setupDBVersion($user, $dbversion + 1);
+            if($res===false) {
+                die("Migration of database failed");
+            }
+        }
+        if($dbversion < Version::DBVERSION_EXPECTED) {
+            Otp::relocate("index.php?action=logoff?hint=".urlencode("Too many migration steps. Please login again to finish database migration"));
+        }
+        return true;
+    }
+    /**
      * Setup for database connectivty and structures
      *
      */
@@ -208,21 +230,39 @@ class Db
                 $db = new PDO("pgsql:host=" . $dbserver . ";port=" . $port . ";dbname=" . $dbname, $user, $pass);
                 $db->exec("set names utf8");
 
-                Db::writeDBSetup($dbserver, $port, $dbname, $user, $pass);
+
+                $fileres = Db::writeDBSetup($dbserver, $port, $dbname, $user, $pass);
+
+                if($fileres===false) {
+                    die("<br>We found a previous database and database entries, abort!");
+                }
+
 
                 $DBVersion = Db::getLatestDBVersion();
                 if ($DBVersion < 1) {
-                    Db::setupDBVersion1($user);
+                    $res = Db::setupDBVersion($user, 1);
+                    if($res === false) {
+                        try {
+                            unlink(__DIR__ . '/../database.php');
+                        } catch (Exception $ex) {
+
+                        }
+                        die("<br>Creating database scheme failed, abort!");
+                    }
                 } else {
-                    unlink(__DIR__ . '/../database.php');
+                    try {
+                        unlink(__DIR__ . '/../database.php');
+                    } catch (Exception $ex) {
+
+                    }
                     die("<br>We found a previous database and database entries, abort!");
                 }
                 session_abort();
                 session_destroy();
 
                 header("Location: index.php");
+                exit;
 
-                echo "OK, nice";
             } catch (PDOException $exception) {
                 echo "Connection error: " . $exception->getMessage();
                 die("<br>Connection failed, please check if database is reachable, and database name and user exist");
@@ -242,24 +282,33 @@ class Db
      * @param string $user Username
      * @param string $pass Password
      *
+     * @return bool True on success
      */
-    public static function writeDBSetup(string $dbserver, string $port, string $dbname, string $user, string $pass)
+    public static function writeDBSetup(string $dbserver, string $port, string $dbname, string $user, string $pass): bool
     {
-        $string = '<?php
+        try {
+            $string = '<?php
     
-    $dbserver=' . "'" . $dbserver . "'" . ';
-    $port=' . "'" . $port . "'" . ';
-    $dbname=' . "'" . $dbname . "'" . ';
-    $user=' . "'" . $user . "'" . ';
-    $pass=' . "'" . $pass . "'" . ';
-    
-    $db = new PDO("pgsql:host=" . $dbserver . ";port=" . $port . ";dbname=" . $dbname, $user, $pass);
-    $db->exec("set names utf8");
-    
-    ';
-        $file = __DIR__ . '/../database.php';
+            $dbserver=' . "'" . $dbserver . "'" . ';
+            $port=' . "'" . $port . "'" . ';
+            $dbname=' . "'" . $dbname . "'" . ';
+            $user=' . "'" . $user . "'" . ';
+            $pass=' . "'" . $pass . "'" . ';
+            
+            $db = new PDO("pgsql:host=" . $dbserver . ";port=" . $port . ";dbname=" . $dbname, $user, $pass);
+            $db->exec("set names utf8");
+            
+            ';
+            $file = __DIR__ . '/../database.php';
 
-        file_put_contents($file, $string);
+            file_put_contents($file, $string);
+
+            return true;
+        } catch (Exception $ex) {
+            echo $ex->getMessage();
+            return false;
+        }
+
     }
 
     /**
@@ -287,52 +336,86 @@ class Db
     }
 
     /**
-     * Initialize database structure with version 1
+     * Create database scheme with given version
      *
      * @param string $dbowner The database user owning tables, indexes
+     * @param int $dbversion The schema version to apply
+     *
      * @return bool True if success
      */
-    public static function setupDBVersion1(string $dbowner): bool
+    public static function setupDBVersion(string $dbowner, int $dbversion): bool
     {
         global $db;
 
-        $db->exec('CREATE TABLE IF NOT EXISTS public.totp
-            (
-                totp_id serial NOT NULL,
-                totp_description text NOT NULL,
-                totp_icon text NULL,
-                totp_ts timestamp without time zone NOT NULL,
-                totp_secret_encrypted text NOT NULL,
-                totp_iv text NOT NULL,
-                CONSTRAINT pkey_totp_id PRIMARY KEY (totp_id)
-            )
-            WITH (
-                OIDS = FALSE
-            )
-            TABLESPACE pg_default;');
-        $db->exec('ALTER TABLE IF EXISTS public.totp
-                OWNER to ' . $dbowner . ';');
-        $db->exec('CREATE INDEX IF NOT EXISTS idx_totp_totp_id
-                ON public.totp USING btree
-                (totp_id ASC NULLS LAST)
-                TABLESPACE pg_default;');
+        switch ($dbversion) {
+            case 1:
+                try {
 
-        $db->exec('CREATE TABLE IF NOT EXISTS public.dbversion
-            (
-                dbversion_id serial NOT NULL,
-                dbversion_number integer NOT NULL,
-                CONSTRAINT pkey_dbversion_id PRIMARY KEY (dbversion_id)
-            )
-            WITH (
-                OIDS = FALSE
-            )
-            TABLESPACE pg_default;');
-        $db->exec('ALTER TABLE IF EXISTS public.dbversion
-            OWNER to ' . $dbowner . ';');
+                    $db->exec('CREATE TABLE IF NOT EXISTS public.totp
+                    (
+                        totp_id serial NOT NULL,
+                        totp_description text NOT NULL,
+                        totp_icon text NULL,
+                        totp_ts timestamp without time zone NOT NULL,
+                        totp_secret_encrypted text NOT NULL,
+                        totp_iv text NOT NULL,
+                        CONSTRAINT pkey_totp_id PRIMARY KEY (totp_id)
+                    )
+                    WITH (
+                        OIDS = FALSE
+                    )
+                    TABLESPACE pg_default;');
+                        $db->exec('ALTER TABLE IF EXISTS public.totp
+                        OWNER to ' . $dbowner . ';');
+                        $db->exec('CREATE INDEX IF NOT EXISTS idx_totp_totp_id
+                        ON public.totp USING btree
+                        (totp_id ASC NULLS LAST)
+                        TABLESPACE pg_default;');
 
-        $db->exec('insert into dbversion (dbversion_number) values(1);');
+                        $db->exec('CREATE TABLE IF NOT EXISTS public.dbversion
+                    (
+                        dbversion_id serial NOT NULL,
+                        dbversion_number integer NOT NULL,
+                        CONSTRAINT pkey_dbversion_id PRIMARY KEY (dbversion_id)
+                    )
+                    WITH (
+                        OIDS = FALSE
+                    )
+                    TABLESPACE pg_default;');
+                        $db->exec('ALTER TABLE IF EXISTS public.dbversion
+                    OWNER to ' . $dbowner . ';');
 
-        return true;
+                    $db->exec('insert into dbversion (dbversion_number) values(1);');
+                    return true;
+                } catch (Exception $ex) {
+                    echo $ex->getMessage();
+                }
+                break;
+            case 2:
+                try {
+
+
+                    $db->exec('update dbversion set dbversion_number=' . $dbversion);
+                    return true;
+                } catch (Exception $ex) {
+                    echo $ex->getMessage();
+                }
+                break;
+            case 999999999: //template
+                try {
+
+
+                    $db->exec('update dbversion set dbversion_number=' . $dbversion);
+                    return true;
+                } catch (Exception $ex) {
+                    echo $ex->getMessage();
+                }
+                break;
+            default:
+
+        }
+
+        return false;
 
     }
 

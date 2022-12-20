@@ -13,7 +13,16 @@ $passwordrelation = '';
 $loggedIn = 0;
 $loggedInSmarty = 0;
 
-if (isset($_SESSION['otp_loginvaliduntil']) && is_numeric($_SESSION['otp_loginvaliduntil'])) {
+$targetDBSetup = false;
+if (isset($database_set)) {
+    if ($database_set === false) {
+        $template = 'dbsetup.tpl';
+
+        $targetDBSetup = true;
+    }
+}
+
+if (isset($_SESSION['otp_loginvaliduntil']) && is_numeric($_SESSION['otp_loginvaliduntil']) && !$targetDBSetup) {
     if (Session::otpnow() < $_SESSION['otp_loginvaliduntil']) {
         $loggedIn = true;
         $loggedInSmarty = 1;
@@ -28,8 +37,11 @@ if(isset($_SESSION['otp_checkhash']) && strlen($_SESSION['otp_checkhash'])>0) {
     $runHIBPcheck = 1;
 }
 
-
+$notifymessage = '';
 if ($loggedIn === true) {
+    if(isset($_GET['hint']) && strlen($_GET['hint'])) {
+        $notifymessage=str_replace("'", "\'",$_GET['hint']);
+    }
     switch ($action) {
         case "restoreupload":
             Otp::restoreupload();
@@ -96,7 +108,7 @@ if ($loggedIn === true) {
 } else {
     $template = 'login.tpl';
     $pwdfocus = 1;
-    $passwordrelation=Session::createPasswordRelation();
+
     switch ($action) {
         case "dbsetup":
             Db::dbsetup();
@@ -120,17 +132,13 @@ if ($loggedIn === true) {
             echo "Session Timeout";
             exit;
         default:
-
+            $passwordrelation=Session::createPasswordRelation();
 
     }
 }
 
 
-if (isset($database_set)) {
-    if ($database_set === false) {
-        $template = 'dbsetup.tpl';
-    }
-}
+
 
 if (!empty($smarty)) {
 
@@ -143,6 +151,8 @@ if (!empty($smarty)) {
     $smarty->assign('pwdfocus', $pwdfocus);
 
     $smarty->assign('template', $template);
+
+    $smarty->assign('notifymessage', $notifymessage);
 
     $smarty->display('index.tpl');
 

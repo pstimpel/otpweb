@@ -19,6 +19,7 @@ function selectIcon(divid, iconpath, icon) {
 
                 document.getElementById('iconwindow'+divid).style.visibility="hidden";
                 document.getElementById('icon'+divid).src = iconpath;
+                notifyUser('info', 'Icon changed', 5000, true, true, true);
             } else {
                 location.reload();
             }
@@ -80,6 +81,7 @@ function savedescription(divid) {
             if(!isNaN(res)) {
                 window.counterrestart=true;
                 $('#tokentext_'+divid).html(document.getElementById('totp_description_' + divid).value);
+                notifyUser('info', 'Description changed', 5000, true, true, true);
             } else {
                 $('#tokentext_'+divid).html("Session timed out");
                 location.reload();
@@ -101,6 +103,16 @@ function toggledescription(divid) {
     } else {
         document.getElementById("tokendescriptionshow"+divid).style.visibility="hidden";
         document.getElementById("tokendescriptionedit"+divid).style.visibility="visible";
+    }
+
+}
+
+function toggleDbOverwrite() {
+
+    if(!document.getElementById('overwritedb').checked) {
+        document.getElementById("willbeoverwritten").style.visibility="hidden";
+    } else {
+        document.getElementById("willbeoverwritten").style.visibility="visible";
     }
 
 }

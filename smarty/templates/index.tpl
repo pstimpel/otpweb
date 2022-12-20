@@ -2,7 +2,6 @@
 
 {include file="menu.tpl"}
 
-
 <div id="content_container" style="margin: 10px;">
 
     <div id="container">
