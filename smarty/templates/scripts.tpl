@@ -1,7 +1,7 @@
 
 <script src="js/jquery-3.6.2.min.js"></script>
 
-<script src="js/notifIt.js" type="text/javascript"></script>
+<script src="js/notifit.js" type="text/javascript"></script>
 
 {literal}
 <script>

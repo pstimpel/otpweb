@@ -16,7 +16,7 @@
     <!-- Bootstrap-CSS -->
     <link href="css/bootstrap.css" rel="stylesheet" />
 
-    <link href="css/notifIt.css" type="text/css" rel="stylesheet">
+    <link href="css/notifit.css" type="text/css" rel="stylesheet">
 
     <!-- my css -->
     <!-- TODO: remove the cachets in production -->
