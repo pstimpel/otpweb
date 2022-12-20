@@ -66,7 +66,7 @@ You can put this file elsewhere, even on public clouds. For decrypting the the e
 
 You can restore your data by just uploading the json file. 
 
-**Attention: Restore will delete all existing data in your installation, and all icons as well - before restoring the data from the json file.**
+**Attention: Restore will delete all existing data in your installation (if you select to do so), and all icons as well - before restoring the data from the json file.**
 
 ### Update
 
