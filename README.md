@@ -23,7 +23,7 @@ pleased me based on user epxerience. So, I wrote my own.
 
 Before proceeding with the setup, you will need to create a database, username and password on a PostgreSQL server your future OTP web can reach out to.
 
-After seting up the database access, just download the archive, unpack it into a folder on your webserver. Point your browser to that URL.
+After setting up the database access, just download the archive, unpack it into a folder on your webserver. Point your browser to that URL.
 
 Provide the PostgreSQL servers address, port, database name, database user and password. During this step, the OTP web tries to create folders and files needed for the upload of icons / logos, and database access. If this failes in your setup, please allow write access to your OTP webroot for the user your webserver is using (www-data?).
 
@@ -41,7 +41,7 @@ Therefore I suggest you using a strong password, but one that is easy to remembe
 
 "Last-night-I-ate-2-shoes!"
 
-By using such an approach, you can create easo to remember, but complex passwords. Another way is to use such a sentence, and use the first characters of each word to form your password:
+By using such an approach, you can create easy to remember, but complex passwords. Another way is to use such a sentence, and use the first characters of each word to form your password:
 
 LnIa2s!
 
@@ -62,7 +62,7 @@ You could backup your data by downloading a json file. This json file contains:
 - the timestamp the entry was created
 - base64 encoded binary data of all the icons you uploaded to your installation of OTP web
 
-You can put this file elsewhere, even on public clouds. For decrypting the the entries, the other party needs your password. And of course your password is strong, not stored in that backup-file, and not publicly available.
+You can put this file elsewhere, even on public clouds. For decrypting the entries, the other party needs your password. And of course your password is strong, and not stored in that backup-file, and not publicly available.
 
 You can restore your data by just uploading the json file. 
 
@@ -101,7 +101,7 @@ I did not create one. Feel free to do so. If you notify me, I will add a link to
 
 **I provided the wrong password, but the page did not refuse access**
 
-Sure. It show empty entries on your OTP web, or filled the entries with gibberish. It might even be able to generate tokens. But if you double-check the entries, all those tokens are wrong - guaranteed. This is because your password was not stored anywhere, any therefore OTP web cannot know if the password was wrong. Is this a security issue? I do not think so, because your TOTPs are still secure.
+Sure. It show empty entries on your OTP web, or filled the entries with gibberish. It might even be able to generate (wrong!) tokens. But if you double-check the entries, all those tokens are wrong - guaranteed. This is because your password was not stored anywhere, any therefore OTP web cannot know if the password was wrong. Is this a security issue? I do not think so, because your TOTPs are still secure.
 
 
 
