@@ -106,8 +106,10 @@ if ($loggedIn === true) {
 
     }
 } else {
-    $template = 'login.tpl';
-    $pwdfocus = 1;
+    if(!$targetDBSetup) {
+        $template = 'login.tpl';
+        $pwdfocus = 1;
+    }
 
     switch ($action) {
         case "dbsetup":
