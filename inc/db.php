@@ -297,7 +297,7 @@ class Db
             
             $db = new PDO("pgsql:host=" . $dbserver . ";port=" . $port . ";dbname=" . $dbname, $user, $pass);
 
-            $db->exec("set names ' . "'" . 'utf8' . "'" . '");
+            //$db->exec("set names ' . "'" . 'utf8' . "'" . '");
             
             ';
             $file = __DIR__ . '/../database.php';
