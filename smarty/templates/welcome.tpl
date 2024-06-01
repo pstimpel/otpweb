@@ -110,5 +110,6 @@
             document.search.search.value="";
             searchfunc();
         }
+        document.search.search.focus();
 </script>
 {/literal}
