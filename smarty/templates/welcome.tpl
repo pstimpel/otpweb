@@ -1,7 +1,20 @@
 {if sizeof($totpValues) > 0}
+    <div class="row flex-row">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <form name="search">
+                <label for="search"></label><input type="text" id="search" name="search" onkeyup="searchfunc()" placeholder="Search OTP providers"> <a href="javascript:clearsearch()"><i class="fa fa-trash-o" style="font-size: x-large"></i></a>
+            </form>
+        </div>
+    </div>
+    <div class="row flex-row" style="background-color: white">
+        <div class="col-lg-3 col-sm-12 tokenouterspace">
+            &nbsp;
+        </div>
+
+    </div>
     {section name=m loop=$totpValues}
         {strip}
-            <div class="tokenbackground" style="position:relative;">
+            <div class="tokenbackground" style="position:relative;" id="totpcontainer-{$totpValues[m].totp_id}">
                 <div class="row flex-row otpdescription">
                     <div class="col-lg-1 col-md-1 col-sm-12 zeropadding" id="iconparent{$totpValues[m].totp_id}">
                         <a href="javascript:toggleIconWindow('{$totpValues[m].totp_id}', document.getElementById('iconparent{$totpValues[m].totp_id}'))">
@@ -55,14 +68,15 @@
                     </div>
 
                 </div>
-            </div>
-            <div id="iconwindow{$totpValues[m].totp_id}" class="iconwindow">&nbsp;</div>
-            <div class="row flex-row" >
-                <div class="col-lg-3 col-sm-12 tokenouterspace">
-                    &nbsp;
-                </div>
+                <div id="iconwindow{$totpValues[m].totp_id}" class="iconwindow">&nbsp;</div>
+                <div class="row flex-row" style="background-color: white">
+                    <div class="col-lg-3 col-sm-12 tokenouterspace">
+                        &nbsp;
+                    </div>
 
+                </div>
             </div>
+
 
         {/strip}
     {/section}
@@ -76,3 +90,25 @@
     </div>
 {/if}
 
+{literal}
+<script lang="js">
+        function searchfunc() {
+            let input, filter, totpContainers, i, txtValue;
+            input = document.getElementById("search");
+            filter = input.value.toUpperCase();
+            totpContainers = document.getElementsByClassName("tokenbackground");
+            for (i = 0; i < totpContainers.length; i++) {
+                txtValue = totpContainers[i].textContent || totpContainers[i].innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    totpContainers[i].style.display = "";
+                } else {
+                    totpContainers[i].style.display = "none";
+                }
+            }
+        }
+        function clearsearch() {
+            document.search.search.value="";
+            searchfunc();
+        }
+</script>
+{/literal}

@@ -1,7 +1,7 @@
 <?php
 
 class Version {
-    CONST OTPVERSION = "1.0.4";
+    CONST OTPVERSION = "1.0.6";
     CONST DBVERSION_EXPECTED = 1;
 }
 
