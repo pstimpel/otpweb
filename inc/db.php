@@ -78,19 +78,21 @@ class Db
                 $icon = Image::ICON_DIRECTORY . $icon;
             }
 
-
-            array_push($totpValues, array(
-                'totp_id' => $row['totp_id'],
-                'totp_description' => $description,
-                'totp_icon' => $icon,
-                'totp_iv_b64' => $row['totp_iv'],
-                'totp_ts_hr' => date("Y-m-d H:i", strtotime($row['totp_ts'])),
-                'token' => (new Totp())->GenerateToken($tokenSecret_b32),
-                'totp_description_b64' => $row['totp_description'],
-                'totp_icon_b64' => $row['totp_icon'],
-                'totp_ts' => $row['totp_ts'],
-                'totp_secret_b64' => $row['totp_secret_encrypted']
-            ));
+            //if decrypt failed, we need no array
+            if(!is_null($description)) {
+                array_push($totpValues, array(
+                    'totp_id' => $row['totp_id'],
+                    'totp_description' => $description,
+                    'totp_icon' => $icon,
+                    'totp_iv_b64' => $row['totp_iv'],
+                    'totp_ts_hr' => date("Y-m-d H:i", strtotime($row['totp_ts'])),
+                    'token' => (new Totp())->GenerateToken($tokenSecret_b32),
+                    'totp_description_b64' => $row['totp_description'],
+                    'totp_icon_b64' => $row['totp_icon'],
+                    'totp_ts' => $row['totp_ts'],
+                    'totp_secret_b64' => $row['totp_secret_encrypted']
+                ));
+            }
         }
 
         return Otp::otpArraySort($totpValues, 'totp_description', 'SORT_ASC');
@@ -119,6 +121,11 @@ class Db
             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
                 $tokenSecret_b32 = Crypt::decrypt($row['totp_secret_encrypted'], base64_decode($_SESSION['otp_pwd_hash']), base64_decode($row['totp_iv']));
+
+                //if decrypt failed, do not deliver any token
+                if(is_null($tokenSecret_b32)) {
+                    return '';
+                }
 
                 $token = (new Totp())->GenerateToken($tokenSecret_b32);
 
