@@ -23,7 +23,7 @@ class Session
      */
     public static function login()
     {
-        // TODO: this is such a dirty hack to avoid formfill suggestions by the browser, but seems to be working
+
         $pass = $_POST[$_POST['passwordrelation']];
         $_SESSION['otp_pwd_hash'] = base64_encode(hash("sha256", $pass, true));
         $_SESSION['otp_loginvaliduntil'] = Session::otpnow() + Session::SESSION_LIFETIME_SECONDS;
@@ -84,6 +84,7 @@ class Session
      */
     public static function checkPasswordAgainstExternal():string {
         if(isset($_SESSION['otp_checkhash']) && strlen($_SESSION['otp_checkhash'])>5) {
+
             $fullhash = $_SESSION['otp_checkhash'];
             $_SESSION['otp_checkhash']='';
             $_SESSION['pwcheckrun']=0;
@@ -106,23 +107,28 @@ class Session
                 $hashes = explode("\n", $http_request_result);
 
                 for($i=0;$i<sizeof($hashes);$i++) {
+
                     $hashes[$i]=strtoupper(substr($fullhash,0,5)).$hashes[$i];
                     $thishash = explode(':', $hashes[$i]);
 
                     if(strtoupper($thishash[0])==strtoupper($fullhash)) {
 
-                        echo "0";
-                        exit;
+                        return "0";
+
                     }
+
                 }
-                echo "200";
-                exit;
+
+                return "200";
+
             }
-            echo "500";
-            exit;
+
+            return "500";
+
         } else {
-            echo "600";
-            exit;
+
+            return "600";
+
         }
     }
 
