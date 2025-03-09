@@ -144,7 +144,9 @@ function reveal(divid, tokenid) {
             //console.log(res);
             if(!isNaN(res)) {
                 window.counterrestart=true;
-                $('#'+divid).html("<span class=\"textaligncenter tokentext tokentext textbold\">"+res+"</span>");
+                let myhtml = "<span id=\"otp-"+divid+"\" class=\"textaligncenter tokentext tokentext textbold\">"+res+"</span><br><a href=\"javascript:copyToClipboard('otp-"+divid+"');\"><i class=\"fa fa-copy menutopic\"></a>";
+                //console.log(myhtml);
+                $('#'+divid).html(myhtml);
             } else {
                 $('#'+divid).html("Session timed out");
                 location.reload();

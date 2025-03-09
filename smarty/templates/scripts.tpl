@@ -3,8 +3,45 @@
 
 <script src="js/notifit.js" type="text/javascript"></script>
 
+
+
 {literal}
 <script>
+
+    function copyToClipboard(elementname) {
+        let element = document.getElementById(elementname); // Element mit Namen elementname holen
+
+        if (!element) {
+            console.error("Element mit dem Namen "+elementname+" nicht gefunden.");
+            return;
+        }
+
+        let text = element.innerText || element.textContent; // Inhalt holen
+
+        if (navigator.clipboard && window.isSecureContext) {
+            // Moderne Methode (nur über HTTPS verfügbar)
+            navigator.clipboard.writeText(text).then(() => {
+                console.log("Inhalt erfolgreich kopiert!");
+                notifyUser('info', 'Copied!', 5000, true, true, true);
+            }).catch(err => {
+                notifyUser('error', 'Copy failed', 5000, true, true, true);
+            });
+        } else {
+            // Fallback für ältere Browser
+            let textarea = document.createElement("textarea");
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand("copy");
+                notifyUser('info', 'Copied (old school)!', 5000, true, true, true);
+            } catch (err) {
+                notifyUser('error', 'Copy failed (old school)!', 5000, true, true, true);
+            }
+            document.body.removeChild(textarea);
+        }
+    }
+
     /*
     * type:
     * success
