@@ -2,7 +2,7 @@
     <div class="row flex-row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <form name="search">
-                <label for="search"></label><input type="text" id="search" name="search" onkeyup="searchfunc()" placeholder="Search OTP providers"> <a href="javascript:clearsearch()"><i class="fa fa-trash-o" style="font-size: x-large"></i></a>
+                <label for="search"></label><input type="text" id="search" name="search" onkeyup="searchfunc()" placeholder="Search OTP providers"> <a href="javascript:clearsearch()"><i class="fas fa-trash-o" style="font-size: x-large"></i></a>
             </form>
         </div>
     </div>
@@ -30,7 +30,7 @@
                                 <span class="tokentext" id="tokentext_{$totpValues[m].totp_id}">{$totpValues[m].totp_description}</span>
                                 <span class="spanshow">
                                     <a href="javascript:toggledescription('{$totpValues[m].totp_id}');">
-                                        <i class="fa fa-edit menutopic"></i>
+                                        <i class="fas fa-edit menutopic"></i>
                                     </a>
                                 </span>
                             </div>
@@ -40,12 +40,12 @@
                                 </span>
                                 <span class="spaneditsave">
                                     <a href="javascript:savedescription('{$totpValues[m].totp_id}');">
-                                        <i class="fa fa-save menutopic"></i>
+                                        <i class="fas fa-save menutopic"></i>
                                     </a>
                                 </span>
                                 <span class="spanshow">
                                     <a href="javascript:toggledescription('{$totpValues[m].totp_id}');">
-                                        <i class="fa fa-edit menutopic"></i>
+                                        <i class="fas fa-edit menutopic"></i>
                                     </a>
                                 </span>
                             </div>
@@ -57,13 +57,13 @@
                     <div class="col-lg-2 col-md-2 col-sm-12 otptoken tokendiv" >
                         <div id="token{$totpValues[m].totp_id}">
                             <span class="textaligncenter tokentext">
-                                <a href="javascript:reveal('token{$totpValues[m].totp_id}','{$totpValues[m].totp_id}')"><i class="fa fa-refresh menutopic"></i></a>
+                                <a href="javascript:reveal('token{$totpValues[m].totp_id}','{$totpValues[m].totp_id}')"><i class="fas fa-refresh menutopic"></i></a>
                             </span>
                         </div>
                     </div>
                     <div class="col-lg-1 col-md-1 col-sm-12 otptoken tokendiv" >
                         <span class="tokentext">
-                            <a href="index.php?action=delete&id={$totpValues[m].totp_id}"><i class="fa fa-trash menutopic"></i></a>
+                            <a href="index.php?action=delete&id={$totpValues[m].totp_id}"><i class="fas fa-trash menutopic"></i></a>
                         </span>
                     </div>
 

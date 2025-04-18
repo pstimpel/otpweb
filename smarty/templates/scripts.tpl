@@ -83,7 +83,10 @@
 {if $pwdfocus == 1}
     {literal}
         <script>
-            $('#'+'{/literal}{$passwordrelation}{literal}').focus();
+            $(document).ready(function() {
+                $('#'+'{/literal}{$passwordrelation}{literal}').focus();
+                //console.log('focus');
+            });
 
             // TODO: this is such a dirty hack to avoid formfill suggestions by the browser, but seems to be working
             let passwordfield = document.getElementById('{/literal}{$passwordrelation}{literal}');

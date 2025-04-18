@@ -6,12 +6,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=0.8" />
 
-    <link rel="shortcut icon" href="imgages/favicon.png" type="image/png" />
+    <link rel="shortcut icon" href="images/favicon.png" type="image/png" />
     <link rel="icon" href="images/favicon.png" type="image/png" />
 
     <link rel="apple-touch-icon" href="images/apple-touch-icon.png" />
 
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/fontawesome-6.7.2.all.min.css">
 
     <!-- Bootstrap-CSS -->
     <link href="css/bootstrap.css" rel="stylesheet" />

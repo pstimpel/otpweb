@@ -9,7 +9,7 @@
         &nbsp;
     </div>
     <div class="col-lg-12 col-sm-12" >
-        <a href="index.php?action=showicons"><i class="fa fa-caret-left menutopic"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <a href="index.php?action=deleteicon&id={$icon}"><i class="fa fa-trash menutopic"></i></a>
+        <a href="index.php?action=showicons"><i class="far  fa-caret-left menutopic"></i></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <a href="index.php?action=deleteicon&id={$icon}"><i class="far  fa-trash menutopic"></i></a>
     </div>
 </div>

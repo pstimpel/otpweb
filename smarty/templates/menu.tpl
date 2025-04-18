@@ -9,14 +9,14 @@
         <ul class="nav nav-tabs">
 
             <li class="nav-item">
-                <a class="nav-link" href="index.php" ><i class="fa fa-home menutopic"></i></a>
+                <a class="nav-link" href="index.php" ><i class="fas fa-home menutopic"></i></a>
 
             </li>
 
             {if $loggedIn == 1}
 
                 <li class="nav-item">
-                    <a class="nav-link" href="?action=new" ><i class="fa fa-plus-circle menutopic"></i></a>
+                    <a class="nav-link" href="?action=new" ><i class="fas  fa-plus-circle menutopic"></i></a>
                 </li>
 
                 <li class="nav-item">
@@ -24,19 +24,19 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="javascript:refreshsession()"><i class="fa fa-refresh menutopic"></i></a>
+                    <a class="nav-link" href="javascript:refreshsession()"><i class="fas  fa-refresh menutopic"></i></a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="?action=showicons" ><i class="fa fa-file-image-o menutopic"></i></a>
+                    <a class="nav-link" href="?action=showicons" ><i class="fas  fa-file-image-o menutopic"></i></a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="?action=backup" target="_blank" ><i class="fa fa-cloud-download menutopic"></i></a>
+                    <a class="nav-link" href="?action=backup" target="_blank" ><i class="fas  fa-cloud-download menutopic"></i></a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="?action=restore" ><i class="fa fa-cloud-upload menutopic"></i></a>
+                    <a class="nav-link" href="?action=restore" ><i class="fas  fa-cloud-upload menutopic"></i></a>
                 </li>
 
                 <li class="nav-item">
@@ -44,7 +44,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.php?action=logoff"><i class="fa fa-lock menutopic"></i></a>
+                    <a class="nav-link" href="index.php?action=logoff"><i class="fas  fa-lock menutopic"></i></a>
                 </li>
 
             {/if}
