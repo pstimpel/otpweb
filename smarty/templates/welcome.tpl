@@ -12,6 +12,25 @@
         </div>
 
     </div>
+
+    <div
+            id="qr"
+            style="
+    display:none;
+    position:fixed;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:80vmin;
+    height:80vmin;
+    background:#eee;
+    border:2px solid #999;
+    box-shadow:0 8px 24px rgba(0,0,0,.15);
+    border-radius:12px;
+    z-index:9999;
+  ">huhu
+    </div>
+
     {section name=m loop=$totpValues}
         {strip}
             <div class="tokenbackground" style="position:relative;" id="totpcontainer-{$totpValues[m].totp_id}">
@@ -21,7 +40,7 @@
                             <img id="icon{$totpValues[m].totp_id}" src="{$totpValues[m].totp_icon}" alt="icon" />
                         </a>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12 tokendiv"  >
+                    <div class="col-lg-4 col-md-4 col-sm-12 tokendiv"  >
                         <form name="store{$totpValues[m].totp_id}">
                             <input type="hidden" name="totp_iv_b64_{$totpValues[m].totp_id}" id="totp_iv_b64_{$totpValues[m].totp_id}" value="{$totpValues[m].totp_iv_b64}">
                             <input type="hidden" name="totp_id_{$totpValues[m].totp_id}" id="totp_id_{$totpValues[m].totp_id}" value="{$totpValues[m].totp_id}">
@@ -58,6 +77,13 @@
                         <div id="token{$totpValues[m].totp_id}">
                             <span class="textaligncenter tokentext">
                                 <a href="javascript:reveal('token{$totpValues[m].totp_id}','{$totpValues[m].totp_id}')"><i class="fas fa-refresh menutopic"></i></a>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 otptoken tokendiv" >
+                        <div id="token{$totpValues[m].totp_id}">
+                            <span class="textaligncenter tokentext">
+                                <a href="javascript:revealqr('qr','{$totpValues[m].totp_id}')"><i class="fas fa-qrcode menutopic"></i></a>
                             </span>
                         </div>
                     </div>

@@ -64,6 +64,14 @@ function unreveal(divid, tokenid) {
     document.getElementById(divid).innerHTML=html;
 }
 
+function unrevealqr(divid, tokenid) {
+
+    var $div = $('#' + divid);
+    $div.css('display', 'none');   // wieder verstecken
+    $div.empty();
+
+}
+
 function savedescription(divid) {
     document.getElementById("tokendescriptionedit"+divid).style.visibility="hidden";
     document.getElementById("tokendescriptionshow"+divid).style.visibility="hidden";
@@ -156,4 +164,31 @@ function reveal(divid, tokenid) {
 
 
     setTimeout("unreveal('"+divid+"','"+tokenid+"')",10000);
+}
+
+function revealqr(divid, tokenid) {
+    var $div = $('#' + divid);
+    $div.html("loading ...");
+
+    $.ajax({
+        async: true,
+        global: false,
+        url: 'index.php?action=getqrbyid&id=' + tokenid,
+        xhrFields: {
+            responseType: 'blob'   // wichtig: damit Browser das als Bilddaten behandelt
+        },
+        success: function(res) {
+            // Blob → ObjectURL → <img>
+            var url = URL.createObjectURL(res);
+            var img = $('<img>', {
+                src: url,
+                style: 'width:100%;height:100%;object-fit:contain;'
+            });
+            $div.html(img);
+            $div.css('display', 'block');   // sichtbar machen
+        }
+    });
+
+
+    setTimeout("unrevealqr('"+divid+"','"+tokenid+"')",10000);
 }

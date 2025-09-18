@@ -36,6 +36,8 @@ if (file_exists(__DIR__ . '/../database.php')) {
 
     require_once(__DIR__ . '/Image.php');
 
+    require_once(__DIR__ . '/tcpdf_barcodes_2d.php');
+
 } else {
     require_once(__DIR__ . '/Image.php');
 

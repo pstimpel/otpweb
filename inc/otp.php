@@ -371,6 +371,37 @@ class Otp
     }
 
     /**
+     * Delivers qr for a certain entry specified by $id
+     *
+     * @param int $id id of the entry
+     *
+     * @return image data stream
+     *
+     */
+    public static function getQRById(int $id): string
+    {
+        $otpdata = Db::getOtpValues($id, true);
+        //print_r($otpdata);
+
+        //$secret = base64_decode($otpdata[0]['totp_secret_b64']);
+        $secret = str_replace(" ", "%20", $otpdata[0]['totp_secret_b32']);
+
+        $issuer = str_replace(" ", "%20", $otpdata[0]['totp_description']);
+        $label = "OTPWEB";
+        $uri = "otpauth://totp/{$label}?secret={$secret}&issuer={$issuer}&algorithm=SHA1&digits=6&period=30";
+
+        $qr = new TCPDF2DBarcode($uri, 'QRCODE,H');
+
+        // QR als PNG-Daten (Modulgröße 6x6 Pixel, schwarz)
+        $pngData = $qr->getBarcodePngData(8, 8, [0, 0, 0]);
+
+        return $pngData;
+
+    }
+
+
+
+    /**
      * Push smarty vars for rendering otp entries
      *
      * Used to fill smarty for vars by getOtpValues

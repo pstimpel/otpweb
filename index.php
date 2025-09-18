@@ -68,6 +68,12 @@ if ($loggedIn === true) {
         case "gettokenbyid":
             echo Otp::getTokenById($_GET['id']);
             exit;
+        case "getqrbyid":
+            $pngdata = Otp::getQRById($_GET['id']);
+            header('Content-Type: image/png');
+            header('Content-Length: ' . strlen($pngdata));
+            echo $pngdata;
+            exit;
         case "getclock":
             echo Otp::getClock();
             exit;

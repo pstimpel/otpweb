@@ -49,7 +49,7 @@ class Db
      * @return array Array of token entries, sorted by description
      *
      */
-    public static function getOtpValues(int $id): array
+    public static function getOtpValues(int $id, bool $decrypt_secret = false): array
     {
         global $db;
         $icons=Otp::getIcons();
@@ -78,6 +78,11 @@ class Db
                 $icon = Image::ICON_DIRECTORY . $icon;
             }
 
+            $secret_decrypted_clear='';
+            if($decrypt_secret) {
+                $secret_decrypted_clear = Base32::encode($tokenSecret_b32);
+            }
+
             //if decrypt failed, we need no array
             if(!is_null($description)) {
                 array_push($totpValues, array(
@@ -90,7 +95,8 @@ class Db
                     'totp_description_b64' => $row['totp_description'],
                     'totp_icon_b64' => $row['totp_icon'],
                     'totp_ts' => $row['totp_ts'],
-                    'totp_secret_b64' => $row['totp_secret_encrypted']
+                    'totp_secret_b64' => $row['totp_secret_encrypted'],
+                    'totp_secret_b32'=>$secret_decrypted_clear
                 ));
             }
         }
