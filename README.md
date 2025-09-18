@@ -86,6 +86,8 @@ TOTP generator itself and related stuff was originally written by **lfkeitel**, 
 
 NotifIt was created by **naoxink**, https://github.com/naoxink/notifIt, provided under MIT license.
 
+TCPDF was created by **Nicola Asuni - Tecnick.com LTD**, https://github.com/tecnickcom/TCPDF/, provided under GNU LESSER GENERAL PUBLIC LICENSE Version 3.
+
 Driven by 
 - PHP https://www.php.net/
 - Smarty 4 https://www.smarty.net/download 
